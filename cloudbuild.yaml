@@ -4,7 +4,7 @@ steps:
     args: ['up', '-d']
 
   - name: 'gcr.io/cloud-builders/docker'   
-    args: ['tag', 'workspace_app:latest', 'gcr.io/orange-hubdata-cbs-dev/$REPO_NAME:$COMMIT_SHA']
+    args: ['tag', 'apache/airflow:latest', 'gcr.io/orange-hubdata-cbs-dev/$REPO_NAME:$COMMIT_SHA']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     args:       
