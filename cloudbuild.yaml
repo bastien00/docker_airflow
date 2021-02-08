@@ -2,6 +2,8 @@ steps:
   # running docker-compose   
   - name: 'docker/compose:1.26.2'
     args: ['up', '-d']
+  images: 
+  - 'us-central1-docker.pkg.dev/orange-hubdata-cbs-dev/airflow-docker-repo/airflow:tag1'
 
   - name: 'gcr.io/cloud-builders/docker'   
     args: ['tag', 'apache/airflow:latest', 'gcr.io/orange-hubdata-cbs-dev/$REPO_NAME:$COMMIT_SHA']
@@ -19,5 +21,4 @@ steps:
     - 'managed'
     - '--allow-unauthenticated'
 
-images: 
-  - 'us-central1-docker.pkg.dev/orange-hubdata-cbs-dev/airflow-docker-repo/airflow:tag1'
+
