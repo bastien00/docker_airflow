@@ -1,7 +1,7 @@
 steps:   
   # running docker-compose   
   - name: 'docker/compose:1.26.2'
-    args: ['build']
+    args: ['up']
 
   - name: 'gcr.io/cloud-builders/docker'   
     args: ['tag', 'apache/airflow:latest', 'gcr.io/orange-hubdata-cbs-dev/$REPO_NAME:$COMMIT_SHA']
