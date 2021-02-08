@@ -1,10 +1,10 @@
 steps:   
   # running docker-compose   
   - name: 'docker/compose:1.26.2'
-    args: ['create']
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/SERVICE-NAME:$COMMIT_SHA', '.']
 
   - name: 'gcr.io/cloud-builders/docker'   
-    args: ['tag', 'apache/airflow:latest', 'gcr.io/orange-hubdata-cbs-dev/$REPO_NAME:$COMMIT_SHA']
+    args: ['push', 'gcr.io/$PROJECT_ID/SERVICE-NAME:$COMMIT_SHA']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     args:       
