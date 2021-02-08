@@ -1,20 +1,23 @@
-substitutions:
-  _DOCKER_COMPOSE_VERSION: 1.28.2
-steps:
-- name: 'gcr.io/cloud-builders/docker'
-  args:
-  - 'build'
-  - '--build-arg'
-  - 'DOCKER_COMPOSE_VERSION=${_DOCKER_COMPOSE_VERSION}'
-  - '-t'
-  - 'gcr.io/$PROJECT_ID/docker-compose:latest'
-  - '-t'
-  - 'gcr.io/$PROJECT_ID/docker-compose:${_DOCKER_COMPOSE_VERSION}'
-  - '.'
-- name: 'gcr.io/$PROJECT_ID/docker-compose'
-  args: ['version']
+steps:   
+  # running docker-compose   
+  - name: 'docker/compose:1.26.2'
+    args: ['build', '--verbose']
 
-images:
-- 'gcr.io/$PROJECT_ID/docker-compose:latest'
-- 'gcr.io/$PROJECT_ID/docker-compose:${_DOCKER_COMPOSE_VERSION}'
-tags: ['cloud-builders-community']
+  - name: 'gcr.io/cloud-builders/docker'   
+    args: ['tag', 'apache/airflow:latest', 'gcr.io/orange-hubdata-cbs-dev/$REPO_NAME:$COMMIT_SHA']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:       
+    - 'run'
+    - 'deploy'
+    - 'myservice'
+    - '--image'
+    - 'us-central1-docker.pkg.dev/orange-hubdata-cbs-dev/airflow-docker-repo/airflow:tag1'
+    - '--region'       
+    - 'us-central1'
+    - '--platform'
+    - 'managed'
+    - '--allow-unauthenticated'
+
+images: 
+  - 'us-central1-docker.pkg.dev/orange-hubdata-cbs-dev/airflow-docker-repo/airflow:tag1'
