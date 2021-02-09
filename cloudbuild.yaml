@@ -1,13 +1,13 @@
 steps:
 # Build the container image
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/orange.com:orange-hubdata-cbs-dev/IMAGE', '.']
+  args: ['build', '-t', 'gcr.io/orange-hubdata-cbs-dev/IMAGE:$COMMIT_SHA', '.']
 # Push the container image to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/orange.com:orange-hubdata-cbs-dev/IMAGE']
+  args: ['push', 'gcr.io/orange-hubdata-cbs-dev/IMAGE:$COMMIT_SHA']
 # Deploy container image to Cloud Run
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: gcloud
-  args: ['run', 'deploy', 'SERVICE-NAME', '--image', 'gcr.io/orange.com:orange-hubdata-cbs-dev/IMAGE', '--region', 'US', '--platform', 'managed']
+  args: ['run', 'deploy', 'SERVICE-NAME', '--image', 'gcr.io/orange-hubdata-cbs-dev/IMAGE', '--region', 'US', '--platform', 'managed']
 images:
-- gcr.io/orange.com:orange-hubdata-cbs-dev/IMAGE
+- gcr.io/orange-hubdata-cbs-dev/IMAGE:$COMMIT_SHA
